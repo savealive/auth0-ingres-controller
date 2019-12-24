@@ -1,0 +1,33 @@
+watchNamespace: ""
+useFullName: false
+matchLabels: {}
+deployment:
+  labels: {}
+  annotations: {}
+config:
+  labels: {}
+  annotations: {}
+rbac:
+  create: true
+  labels: {}
+# Service account config for the agent pods
+serviceAccount:
+  # Specifies whether a ServiceAccount should be created
+  create: true
+  labels: {}
+  # The name of the ServiceAccount to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: auth0controller
+image:
+  repository: savealive/auth0-ingress-controller
+  tag: latest
+  pullPolicy: IfNotPresent
+
+client:
+  clientID: S0meID
+  clientSecret: Secret
+  domain: domain
+  apiURL: https://domain.api.url
+enableCallbackDeletion: true
+creationDelay: 1s
+configFilePath: /etc/auth0-ingress-controller/config.yaml

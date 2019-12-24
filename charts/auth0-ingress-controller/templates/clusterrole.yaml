@@ -1,0 +1,45 @@
+{{- if and ( .Values.rbac.create ) (eq .Values.watchNamespace "") }}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+{{- if .Values.useFullName }}
+  name: {{ template "fullname" . }}-role
+{{- else }}
+  name: {{ template "name" . }}-role
+{{- end }}
+  labels:
+    app: {{ template "name" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: {{ .Release.Name | quote }}
+    heritage: {{ .Release.Service | quote }}
+{{- if .Values.rbac.labels }}
+{{ toYaml .Values.rbac.labels | indent 4 }}
+{{- end }}
+{{- if .Values.matchLabels }}
+{{ toYaml .Values.matchLabels | indent 4 }}
+{{- end }}
+rules:
+  - apiGroups:
+      - ""
+      - "extensions"
+      - "route.openshift.io"
+    resources:
+      - ingresses
+      - routes
+    verbs:
+      - list
+      - get
+      - update
+      - patch
+      - watch
+      - delete
+  - apiGroups:
+      - ""
+    resources:
+      - services
+      - pods
+    verbs:
+      - list
+      - get
+      - watch
+{{- end }}

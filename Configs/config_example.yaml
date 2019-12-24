@@ -1,0 +1,7 @@
+client:
+  clientID: <ID>
+  clientSecret: <secret>
+  domain: DOMAIN.eu.auth0.com
+  apiURL: https://DOMAIN.eu.auth0.com/api/v2/
+enableCallbackDeletion: true
+creationDelay: 1s
