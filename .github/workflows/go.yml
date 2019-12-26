@@ -22,17 +22,16 @@ jobs:
     - name: Check out code into the Go module directory
       uses: actions/checkout@v1
 
-    - name: Get dependencies
-      run: |
-        mkdir -p ~/go/bin
-        go get -v -t -d ./...
-        #if [ -f Gopkg.toml ]; then
-        #    curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
-        #    dep ensure
-        #fi
-
-    - name: Build
+    - name: Build app
       run: make linux
     
-    - name: Test
-      run: ls -la ./bin
+    - name: Build the Docker container image
+      run: docker buildx build --load -t savealive/auth0-ingress-controller:latest .
+
+    - name: Push the image to GPR
+      run: |
+        docker login - savealive -p "${DOCKERHUB_PASSWORD}"
+        docker push savealive/auth0-ingress-controller:latest
+      env:
+        DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
+
