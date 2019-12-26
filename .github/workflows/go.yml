@@ -34,3 +34,5 @@ jobs:
       run: |
         docker build -t savealive/auth0-ingress-controller:${{ github.sha }} .
         docker push savealive/auth0-ingress-controller:${{ github.sha }}
+        docker build -t savealive/auth0-ingress-controller:latest .
+        docker push savealive/auth0-ingress-controller:latest
