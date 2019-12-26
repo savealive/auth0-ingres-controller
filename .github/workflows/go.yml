@@ -27,7 +27,7 @@ jobs:
       
     - uses: azure/docker-login@v1
       with:
-        login-server: hub.docker.com
+        login-server: docker.io
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
