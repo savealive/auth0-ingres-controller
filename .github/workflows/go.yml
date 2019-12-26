@@ -25,6 +25,12 @@ jobs:
     - name: Build app
       run: make linux
     
+    - name: Get docker buildx
+      run: |
+        wget https://github.com/docker/buildx/releases/download/v0.3.1/buildx-v0.3.1.linux-arm64 \
+        -O ~/.docker/cli-plugins/docker-buildx
+        chmod a+x ~/.docker/cli-plugins/docker-buildx
+
     - name: Build the Docker container image
       run: docker buildx build --output=type=docker -t savealive/auth0-ingress-controller:latest .
 
