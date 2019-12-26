@@ -31,6 +31,8 @@ metadata:
     auth0.creditplace.com/appid: 6SaohIZkUfrL6tdDCk3TcXxmS4P5CS8C
     auth0.creditplace.com/callbackPath: auth0loginCallback
     auth0.creditplace.com/enabled: "true"
+    auth0.creditplace.com/scheme: http #Optional. Override http scheme, useful when TLS termination done on LB not on Ingress itself.
+    auth0.creditplace.com/overridePath: pathToOverride #Optional. append pathToOverride to ingress path + append auth0.creditplace.com/callbackPath. 
 ```
 Where _auth0.creditplace.com/appid: 6SaohIZkUfrL6tdDCk3TcXxmS4P5CS8C_ is app id of the _managed_ app.
 *callbackPath* will be added to ingress path e.g. if ingress was http://my.app.com and callbackPath=auth0loginCallback resuling string will be http://my.app.com/auth0loginCallback. 
