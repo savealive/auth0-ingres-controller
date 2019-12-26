@@ -77,7 +77,9 @@ func (iw *IngressWrapper) GetCallbackURLsFromIngress() []interface{} {
 			u.Path = iw.getIngressSubPath(i)
 		}
 		if value, ok := annotations[constants.Auth0CallbackPath]; ok {
-			u.Path = path.Join(u.Path, value)
+			if value != "" {
+				u.Path = path.Join(u.Path, value)
+			}
 		}
 		callbacks = append(callbacks, u.String())
 	}
