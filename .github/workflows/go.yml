@@ -1,0 +1,38 @@
+name: Build and push image
+on: [push]
+jobs:
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Set up Go 1.13
+      uses: actions/setup-go@v1
+      with:
+        go-version: 1.13
+      id: go
+
+    - name: setup env
+      run: |
+        echo "::set-env name=GOPATH::$(go env GOPATH)"
+        echo "::add-path::$(go env GOPATH)/bin"
+      shell: bash
+
+    - name: Check out code into the Go module directory
+      uses: actions/checkout@v1
+
+    - name: Build app
+      run: make linux
+      
+    - uses: azure/docker-login@v1
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_PASSWORD }}
+    
+    - name: Build image
+      run: |
+        docker build -t savealive/auth0-ingress-controller:${{ github.sha }} .
+        docker push savealive/auth0-ingress-controller:${{ github.sha }}
+        docker build -t savealive/auth0-ingress-controller:latest .
+        docker push savealive/auth0-ingress-controller:latest
